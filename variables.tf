@@ -224,9 +224,9 @@ variable "s3_lifecycle_rules" {
 variable "custom_bucket_policy" {
   description = "Custom bucket policy statement"
   type = object({
-    sid       = optional(string)
-    effect    = optional(string)
-    actions   = optional(list(string))
+    sid       = string
+    effect    = string
+    actions   = list(string)
     resources = optional(list(string))
     principals = optional(object({
       type        = string
