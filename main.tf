@@ -122,7 +122,7 @@ data "aws_iam_policy_document" "this" {
       sid       = lookup(statement.value, "sid", "CustomStatement")
       effect    = lookup(statement.value, "effect", "Allow")
       actions   = lookup(statement.value, "actions", [])
-      resources = statement.value.resources != null ? statement.value.resources : [local.bucket.arn, "${local.bucket.arn}/*"]
+      resources = coalesce(statement.value.resources, [local.bucket.arn, "${local.bucket.arn}/*"])
 
       dynamic "principals" {
         for_each = lookup(statement.value, "principals", null) != null ? [statement.value.principals] : []
