@@ -119,13 +119,13 @@ data "aws_iam_policy_document" "this" {
   dynamic "statement" {
     for_each = var.custom_bucket_policy != null ? [var.custom_bucket_policy] : []
     content {
-      sid       = lookup(statement.value, "sid", "CustomStatement")
-      effect    = lookup(statement.value, "effect", "Allow")
-      actions   = lookup(statement.value, "actions", [])
+      sid       = statement.value.sid
+      effect    = statement.value.effect
+      actions   = statement.value.actions
       resources = coalesce(statement.value.resources, [local.bucket.arn, "${local.bucket.arn}/*"])
 
       dynamic "principals" {
-        for_each = lookup(statement.value, "principals", null) != null ? [statement.value.principals] : []
+        for_each = statement.value.principals != null ? [statement.value.principals] : []
         content {
           type        = principals.value.type
           identifiers = principals.value.identifiers
@@ -133,7 +133,7 @@ data "aws_iam_policy_document" "this" {
       }
 
       dynamic "condition" {
-        for_each = lookup(statement.value, "conditions", [])
+        for_each = statement.value.conditions
         content {
           test     = condition.value.test
           variable = condition.value.variable
