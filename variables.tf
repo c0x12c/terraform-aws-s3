@@ -220,3 +220,23 @@ variable "s3_lifecycle_rules" {
   }))
   default = null
 }
+
+variable "custom_bucket_policy" {
+  description = "Custom bucket policy statement"
+  type = object({
+    sid       = string
+    effect    = string
+    actions   = list(string)
+    resources = optional(list(string))
+    principals = optional(object({
+      type        = string
+      identifiers = list(string)
+    }))
+    conditions = optional(list(object({
+      test     = string
+      variable = string
+      values   = list(string)
+    })))
+  })
+  default = null
+}

@@ -1,6 +1,12 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [1.0.0]() (2025-06-24)
+
+### ⚠ BREAKING CHANGES
+
+* Separate S3 to a single module
+* Add `custom_bucket_policy` create additional bucket policy, which support other feature could access this bucket. For example, we can define `logdelivery.elasticloadbalancing.amazonaws.com` in principals field to allow elb write logs to our bucket.
 
 ## [0.4.0]() (2025-04-16)
 
