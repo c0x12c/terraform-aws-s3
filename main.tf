@@ -115,6 +115,34 @@ data "aws_iam_policy_document" "this" {
       ]
     }
   }
+
+  dynamic "statement" {
+    for_each = var.custom_bucket_policy != null ? [var.custom_bucket_policy] : []
+    content {
+      sid       = lookup(statement.value, "sid", "CustomStatement")
+      effect    = lookup(statement.value, "effect", "Allow")
+      actions   = lookup(statement.value, "actions", [])
+      resources = lookup(statement.value, "resources", [local.bucket.arn, "${local.bucket.arn}/*"])
+
+      dynamic "principals" {
+        for_each = lookup(statement.value, "principals", null) != null ? [statement.value.principals] : []
+        content {
+          type        = principals.value.type
+          identifiers = principals.value.identifiers
+        }
+      }
+
+      dynamic "condition" {
+        for_each = lookup(statement.value, "conditions", [])
+        content {
+          test     = condition.value.test
+          variable = condition.value.variable
+          values   = condition.value.values
+        }
+      }
+    }
+  }
+
 }
 
 /*
