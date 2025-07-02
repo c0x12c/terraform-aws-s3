@@ -41,9 +41,7 @@ module "s3" {
 
 ## Modules
 
-| Name                                                                                        | Source              | Version |
-|---------------------------------------------------------------------------------------------|---------------------|---------|
-| <a name="module_access_log_policy"></a> [access\_log\_policy](#module\_access\_log\_policy) | ./access-log-policy | n/a     |
+No modules.
 
 ## Resources
 
