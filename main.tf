@@ -119,7 +119,7 @@ data "aws_iam_policy_document" "this" {
   }
 
   dynamic "statement" {
-    for_each = var.access_logs_bucket_arn == null ? [var.access_logs_bucket_arn] : []
+    for_each = var.access_logs_bucket_arn != null ? [var.access_logs_bucket_arn] : []
 
     content {
       effect = "Allow"

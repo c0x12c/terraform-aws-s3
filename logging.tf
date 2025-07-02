@@ -1,5 +1,5 @@
 resource "aws_s3_bucket_logging" "this" {
-  count = var.enabled_access_logging ? 1 : 0
+  count = var.access_log_target_prefix != null ? 1 : 0
 
   bucket = local.bucket.id
 
