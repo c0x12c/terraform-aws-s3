@@ -130,7 +130,7 @@ data "aws_iam_policy_document" "this" {
       }
 
       actions   = ["s3:PutObject"]
-      resources = toset(["${var.access_logs_bucket_arn}/s3-access-logs/*"])
+      resources = toset(["${var.access_logs_bucket_arn}/*"])
 
       condition {
         test     = "ArnLike"
