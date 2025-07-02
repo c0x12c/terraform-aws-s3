@@ -240,3 +240,9 @@ variable "custom_bucket_policy" {
   })
   default = null
 }
+
+# access logging
+variable "access_logs_bucket_arn" {
+  description = "The arn of bucket that stores access logs"
+  type        = string
+}

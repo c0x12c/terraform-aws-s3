@@ -2,6 +2,8 @@ locals {
   bucket = var.bucket_name != null ? aws_s3_bucket.without_prefix[0] : aws_s3_bucket.with_prefix[0]
 }
 
+data "aws_caller_identity" "current" {}
+
 /*
 aws_s3_bucket main creates an S3 bucket with a specified name, adding environment tags for easier management.
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket
@@ -117,6 +119,34 @@ data "aws_iam_policy_document" "this" {
   }
 
   dynamic "statement" {
+    for_each = var.enabled_access_logging == true ? [1] : []
+
+    content {
+      effect = "Allow"
+
+      principals {
+        type        = "Service"
+        identifiers = ["logging.s3.amazonaws.com"]
+      }
+
+      actions   = ["s3:PutObject"]
+      resources = toset(["${var.access_logs_bucket_arn}/s3-access-logs/*"])
+
+      condition {
+        test     = "ArnLike"
+        variable = "aws:SourceArn"
+        values   = local.bucket.arn
+      }
+
+      condition {
+        test     = "StringEquals"
+        variable = "aws:SourceAccount"
+        values   = [data.aws_caller_identity.current.account_id]
+      }
+    }
+  }
+
+  dynamic "statement" {
     for_each = var.custom_bucket_policy != null ? [var.custom_bucket_policy] : []
     content {
       sid       = statement.value.sid
@@ -142,7 +172,6 @@ data "aws_iam_policy_document" "this" {
       }
     }
   }
-
 }
 
 /*
