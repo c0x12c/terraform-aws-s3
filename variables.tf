@@ -171,12 +171,6 @@ variable "custom_read_write_policy_name" {
   default     = null
 }
 
-variable "enabled_access_logging" {
-  description = "Enable to configure the access logging"
-  type        = bool
-  default     = false
-}
-
 variable "access_log_target_prefix" {
   description = "The target prefix for the access logs"
   type        = string
@@ -245,4 +239,5 @@ variable "custom_bucket_policy" {
 variable "access_logs_bucket_arn" {
   description = "The arn of bucket that stores access logs"
   type        = string
+  default     = null
 }
