@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0]() (2026-05-11)
+
+### Features
+
+* `custom_bucket_policy` (DEPRECATED) — the existing single-statement variable is kept for backwards compatibility but
+  will be removed in a future release. Migrate to `custom_bucket_policies` as soon as possible.
+* `custom_bucket_policies` (NEW) — accepts `list(object({...}))`, allowing multiple bucket policy statements to be
+  defined in a single call. Both `custom_bucket_policy` and `custom_bucket_policies` are merged at apply time, so
+  callers can migrate incrementally. To supply more than one statement, add additional objects to the list.
+
 ## [1.1.0]() (2025-07-02)
 
 ### ⚠ BREAKING CHANGES
