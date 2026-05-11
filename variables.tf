@@ -215,6 +215,26 @@ variable "s3_lifecycle_rules" {
   default = null
 }
 
+variable "custom_bucket_policy" {
+  description = "DEPRECATED: use `custom_bucket_policies` instead. Single custom bucket policy statement."
+  type = object({
+    sid       = string
+    effect    = string
+    actions   = list(string)
+    resources = optional(list(string))
+    principals = optional(object({
+      type        = string
+      identifiers = list(string)
+    }))
+    conditions = optional(list(object({
+      test     = string
+      variable = string
+      values   = list(string)
+    })))
+  })
+  default = null
+}
+
 variable "custom_bucket_policies" {
   description = "List of custom bucket policy statements appended to the bucket policy document. Each entry follows the aws_iam_policy_document statement shape."
   type = list(object({

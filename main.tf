@@ -1,5 +1,11 @@
 locals {
   bucket = var.bucket_name != null ? aws_s3_bucket.without_prefix[0] : aws_s3_bucket.with_prefix[0]
+
+  # Merge the deprecated single-statement variable with the new list variable so both are supported.
+  custom_bucket_policies = concat(
+    var.custom_bucket_policy != null ? [var.custom_bucket_policy] : [],
+    var.custom_bucket_policies != null ? var.custom_bucket_policies : [],
+  )
 }
 
 data "aws_caller_identity" "current" {}
@@ -147,7 +153,7 @@ data "aws_iam_policy_document" "this" {
   }
 
   dynamic "statement" {
-    for_each = var.custom_bucket_policies != null ? var.custom_bucket_policies : []
+    for_each = local.custom_bucket_policies
     content {
       sid       = statement.value.sid
       effect    = statement.value.effect
