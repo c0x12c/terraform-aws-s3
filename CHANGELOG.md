@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0]() (2026-05-11)
+
+### ⚠ BREAKING CHANGES
+
+* `custom_bucket_policies` is now `list(object({...}))` instead of a single `object({...})`. Callers must wrap their
+  existing single-statement value in a list (`[{...}]`). Multiple statements can now be appended by adding additional
+  objects to the list.
+
 ## [1.1.0]() (2025-07-02)
 
 ### ⚠ BREAKING CHANGES
